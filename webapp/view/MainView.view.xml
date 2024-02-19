@@ -1,6 +1,6 @@
 <mvc:View 
     controllerName="ns.invoices.controller.MainView"
-    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns:mvc="sap.ui.core.mvc"
     displayBlock="true"
     xmlns="sap.m"
     xmlns:core="sap.ui.core">
@@ -11,7 +11,7 @@
                 <Label id="labelShipNsme" labelFor="shipName" text="Ship Name" class="sapUiSmallMargin"/>
                 <Input id="shipName" width="60px" class="sapUiSmallMarginEnd"/>
                 <Label id="labelCountry" text="Country" class="sapUiSmallMargin"/>
-                <Select id="slcounry" selectedKey="{selectionScreen>/CountryKey}" 
+                <Select id="slCountry" selectedKey="{selectionScreen>/CountryKey}" 
                                       forceSelection="false" 
                                       items="{selectionScreen>/Countries}">
                     <items>
@@ -19,6 +19,39 @@
                     </items>
 
                 </Select>
+                <Button id="btnFilters" 
+                        text="btnFilter"
+                        icon="sap-icon://filter"
+                        press="onFilter"
+                        class="sapUiSmallMarginEnd"/>
+                <Button id="btnClearFilters" 
+                        text="btnClearFilter"
+                        icon="sap-icon://clear-filter"
+                        press="onClearFilter"
+                        class="sapUiSmallMarginEnd"/>
+            </Panel>
+            <Panel id="panel2">
+                <List id="invoicesList" 
+                        headerText="{i18n>invoicesHeaderList}" 
+                        class="sap.UiResponsiveMargin" 
+                        width="auto" 
+                        items="{/Invoices}">
+                <items>
+                <!-- showMeasure = true pon simbolo moneda al lado del valor -->
+                    <ObjectListItem id="oli" 
+                            title="{ShipName} - {Country}"
+                            number="{ parts : [ {path: 'ExtendedPrice'},
+                                                {path: 'selectionScreen>/Currency'}],
+                            type: 'sap.ui.model.type.Currency',
+                            formatOptions: {
+                                    showMeasure : false
+                            }}"
+                            numberUnit="{selectionScreen>/Currency}"
+                            numberState="{= ${ExtendedPrice} > 100 ? 'Success' : 'Warning'}"> <!-- Exp if para color del campo -->
+                    </ObjectListItem>
+                </items>
+
+                </List>
             </Panel>
         </content>
     </Page>
